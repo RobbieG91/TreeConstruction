@@ -1,7 +1,7 @@
 # TreeConstruction
 Repository for MSc Geomatics Thesis by G.J. de Groot at Delft University of Technology
 <img src="https://github.com/RobbieG91/TreeConstruction/blob/master/Data/Images/Frontpage%20image.png"> 
-
+### Automatic construction of 3D tree models in multiple levels of detail from airborne LiDAR data
 ##
 ### Research Abstract
 
