@@ -1,14 +1,8 @@
-from laspy.file import File
 import numpy as np
 import os
 import time
-import subprocess
 import json
 import math
-import plotly.graph_objects as go
-from plotly.graph_objs import *
-from plotly import tools as tls
-import alphashape
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.spatial import Delaunay
@@ -100,8 +94,6 @@ def write_cityJSON(path, filename, lod, outfilename, param_filename, convex):
             }
 
             starttime = time.clock()
-
-            # tree = np.array(param_array[index_param][0, :13], dtype=float)
 
             """Make vertices for tree model"""
             """Parameters"""
@@ -495,7 +487,7 @@ def write_cityJSON(path, filename, lod, outfilename, param_filename, convex):
             json.dump(jsondict, json_file, indent=2)
 
         print time.clock() - starttime
-
+    # Writer for LODs 3.0 and 3.1
     if lod == 3:
         starttime = time.clock()
         skipped_trees = 0
@@ -584,7 +576,7 @@ def write_cityJSON(path, filename, lod, outfilename, param_filename, convex):
                 Triangles = tetras[:, TriComb].reshape(-1, 3)
                 Triangles = np.sort(Triangles, axis=1)
 
-                # Remove triangles that occurs twice, because they are within shapes
+                # Remove triangles that occur twice, because they are within shapes
                 TrianglesDict = defaultdict(int)
                 for tri in Triangles:
                     TrianglesDict[tuple(tri)] += 1
@@ -629,7 +621,6 @@ def write_cityJSON(path, filename, lod, outfilename, param_filename, convex):
             sorted_triangles = sort_triangles(unsorted_triangles, starttriangle, neighborlist, boundary_array)
             if type(sorted_triangles) == bool:
                 # Case: One or more triangles in the mesh has more than 3 neighboring triangles, this shouldn't happen.
-                # print "Too low alpha for this segment:", seg_id, sorted_triangles
                 skipped_trees += 1
                 continue
 
@@ -843,7 +834,6 @@ def sort_triangles(unsorted_triangles, starttriangle, neighborlist, boundary_arr
 
 def ccw_orientation(boundaries, vertices):
     triangles = vertices[boundaries]
-    # print triangles
     maxdex = np.argmax(np.average(triangles[:, :, 2], axis=1))
     bottom_triangle = triangles[maxdex]
 
@@ -861,7 +851,6 @@ def ccw_orientation(boundaries, vertices):
 if __name__ == '__main__':
     """GLOBAL VARIABLES"""
     path = os.getcwd()
-    # filename = "Noordereiland_2std_100_Int_AllFeatures.npy"
     filename = "Noordereiland_NewFeatures_ML.npy"
     param_filename = False
     lod = 3
@@ -869,7 +858,6 @@ if __name__ == '__main__':
 
 
     sys.setrecursionlimit(10000)
-    # outfilename = "no_lod_selected.json"
     if lod == 0:
         outfilename = "Noordereiland_Classified_lod0.json"
     if lod == 1:
